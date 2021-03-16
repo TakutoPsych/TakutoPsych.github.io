@@ -356,7 +356,17 @@ div.tocify {
 </div>
 
 
-<p>Yoshida T, Ura M (2021). “Loss of Control over Addictive Behaviors Mediate the Effect of Social Exclusion in Addiction.” <em>International Journal of Psychological Studies</em>, <em>13</em>(1), 27-27. doi: 10.5539/ijps.v13n1p27 (URL: <a href="https://doi.org/10.5539/ijps.v13n1p27" class="uri">https://doi.org/10.5539/ijps.v13n1p27</a>), Publisher: Canadian Center of Science and Education, &lt;URL: <a href="http://www.ccsenet.org/journal/index.php/ijps/article/view/0/44739" class="uri">http://www.ccsenet.org/journal/index.php/ijps/article/view/0/44739</a>&gt;.</p>
+<pre class="r"><code>library(RefManageR)
+
+MyPublication &lt;- ReadZotero(user = &quot;5786123&quot;, .params = list(q = &quot;Yoshida&quot;,key = &quot;AgP5e0FvM8ukluLbBClO7CJ6&quot;))</code></pre>
+<pre><code>## Loading required namespace: bibtex</code></pre>
+<pre class="r"><code>WriteBib(MyPublication, file = &quot;MyPublication.bib&quot;, bilatex = T, verbose = F)</code></pre>
+<div id="論文" class="section level2">
+<h2>論文</h2>
+<ol style="list-style-type: decimal">
+<li>Yoshida, T., &amp; Ura, M. (2021). Loss of Control over Addictive Behaviors Mediate the Effect of Social Exclusion in Addiction. <em>International Journal of Psychological Studies</em>, 13(1), 27. <a href="https://doi.org/10.5539/ijps.v13n1p27">https://doi.org/10.5539/ijps.v13n1p27</a></li>
+</ol>
+</div>
 
 <footer>
   <p>Copyright &copy; 2021 Takuto Yoshida </p>
