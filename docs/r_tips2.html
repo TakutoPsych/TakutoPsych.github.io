@@ -358,12 +358,12 @@ div.tocify {
 
 <div id="jspsychで研究中" class="section level2">
 <h2>jsPsychで研究中</h2>
-<p>現在僕は、jsPsychとfirebaseでオンライン実験とオンライン調査をしています。 jsPsychは非常にわかりやすくて、実験作るのに役立つのですが、吐き出すデータがちょっと癖あります。今回の記事の内容は、実験の作り方とは離れるので、jsPsychでの実験の作り方が気になる方は、<a href="(https://kunisatolab.github.io" target="_blank">Kunisato先生のブログ</a>を参照してください。</p>
+<p>現在僕は、jsPsychとfirebaseでオンライン実験とオンライン調査をしています。 jsPsychは非常にわかりやすくて、実験作るのに役立つのですが、吐き出すデータがちょっと癖あります。今回の記事の内容は、実験の作り方とは離れるので、jsPsychでの実験の作り方が気になる方は、<a href="https://kunisatolab.github.io" target="_blank">Kunisato先生のブログ</a>を参照してください。</p>
 <p>話を戻して、jsPsychでは、Jsonという形式で結果がアウトプットされます。他の吐き出し方もあるかもしれませんが、僕はJson以外の吐き出し方知りません。 基本的には、JsonはRへのデータ読み込みしやすい形式なんですが、一部問題があります。 jsPsych内の、survey-likertで、リッカートでの質問紙のデータの形式が大変でつまづきました。</p>
 </div>
 <div id="恐怖のマトリョーシカデータ" class="section level2">
 <h2>恐怖のマトリョーシカデータ</h2>
-<p><a href="jsPsych_Experiment/jsPsych_Likert_Sample.html" target="_blank">簡単な質問紙</a> <a href="jsPsych_Experiment/jsPsych_Likert_Sample.html">簡単な質問紙</a>{:target="_blank"}を公開しているので時間ある人は回答して見てください。回答してみると、以下のようなjsonデータが画面上に出力されます。ちなみに僕は満点です。イボではなくキレです。</p>
+<p><a href="jsPsych_Experiment/jsPsych_Likert_Sample.html" target="_blank">簡単な質問紙</a>を公開しているので時間ある人は回答して見てください。回答してみると、以下のようなjsonデータが画面上に出力されます。ちなみに僕は満点です。イボではなくキレです。</p>
 <pre class="json"><code>    {
         &quot;rt&quot;: 5769.974999999249,
         &quot;responses&quot;: &quot;{\&quot;game\&quot;:6,\&quot;ramen\&quot;:6,\&quot;stomach\&quot;:6,\&quot;JiuJitsu\&quot;:6}&quot;,
@@ -636,7 +636,7 @@ survey-likert
 ## [4] &quot;game&quot;0,&quot;ramen&quot;0,&quot;stomach&quot;0,&quot;JiuJitsu&quot;0  
 ## [5] &quot;ReadPaper&quot;0,&quot;pray&quot;0,&quot;MMA&quot;0,&quot;WritePaper&quot;0
 ## [6] &quot;Wining11&quot;0,&quot;zi&quot;0</code></pre>
-<p>そんで、その配列の中の、"項目名"の部分を全部消してあげましょう。 質問項目の名前はそれぞれなので、<a href="http://www.okadajp.org/RWiki/?R+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE">正規表現</a>を使用してあげて、""で囲ってる範囲を抹殺してあげましょう。そのためには、 <strong>[\"’].*?[’\"]</strong> という風に指定して文字検索したら質問項目の名前は問わず、要らん文字列が抹殺されます。ここでつまずいて僕は5日くらい溶けました。</p>
+<p>そんで、その配列の中の、"項目名"の部分を全部消してあげましょう。 質問項目の名前はそれぞれなので、<a href="http://www.okadajp.org/RWiki/?R+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE" target="_blank">正規表現</a>を使用してあげて、""で囲ってる範囲を抹殺してあげましょう。そのためには、 <strong>[\"’].*?[’\"]</strong> という風に指定して文字検索したら質問項目の名前は問わず、要らん文字列が抹殺されます。ここでつまずいて僕は5日くらい溶けました。</p>
 <pre class="r"><code>item_no_maziri_responses&lt;- item_maziri_responses %&gt;% gsub(&quot;[\&quot;&#39;].*?[&#39;\&quot;]&quot;, &quot;&quot;, .) </code></pre>
 <pre class="r"><code>item_no_maziri_responses</code></pre>
 <pre><code>## [1] 6,6,6,6 6,6,6,6 6,6     0,0,0,0 0,0,0,0 0,0</code></pre>
