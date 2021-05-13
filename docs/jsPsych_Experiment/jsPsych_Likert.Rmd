@@ -1,0 +1,91 @@
+---
+title: "JsPsych_sample"
+author: "Takuto Yoshida"
+date: "5/10/2020"
+output:
+  html_document:
+    css: jspsych-6.1.0/css/jspsych.css
+    highlight: null
+    mathjax: null
+    theme: null
+  pdf_document: default
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+
+
+```{r}
+
+library(htmltools)
+tagList(
+tags$script(src='jspsych-6.1.0/jspsych.js'),
+tags$script(src='jspsych-6.1.0/plugins/jspsych-survey-likert.js')
+)
+
+```
+
+
+
+
+
+```{js}
+var scale = [
+　"全くあてはまらない",
+  "ほとんどあてはまらない",
+  "あまりあてはまらない",
+  "どちらともいえない",
+  "ややあてはまる",
+  "かなりあてはまる", 
+  "非常にあてはまる",
+];
+
+var likert = {
+timeline:[
+{
+  type: 'survey-likert',
+  questions: [
+    {prompt: "ゲームをしたい", name: 'game', labels: scale},
+    {prompt: "ラーメン食べたい", name: 'ramen', labels: scale},
+    {prompt: "よく腹を壊す", name: 'stomach', labels: scale},
+    {prompt: "柔術したい", name: 'JiuJitsu', labels: scale}
+  ],
+  button_label: '次へ',
+},{
+  type: 'survey-likert',
+  questions: [
+    {prompt: "論文読みたい", name: 'ReadPaper', labels: scale},
+    {prompt: "お祈りはもう要らない", name: 'pray', labels: scale},
+    {prompt: "MMAジム行きたい", name: 'MMA', labels: scale},
+    {prompt: "論文書けると思う", name: 'WritePaper', labels: scale}
+  ],
+  button_label: '次へ',
+},{
+  type: 'survey-likert',
+  questions: [
+    {prompt: "ウイイレW杯日本代表で優勝したい", name: 'Wining11', labels: scale},
+    {prompt: "痔が再発してつらい", name: 'zi', labels: scale}
+  ],
+  button_label: '次へ',
+  }]
+};
+
+
+var timeline = []; 
+timeline.push(likert);
+
+/*実行*/
+jsPsych.init({
+   timeline: timeline,
+   on_finish: function() {
+       jsPsych.data.displayData();
+   }
+});
+
+   
+
+```
