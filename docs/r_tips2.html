@@ -641,10 +641,123 @@ survey-likert
 <pre class="r"><code>item_no_maziri_responses</code></pre>
 <pre><code>## [1] 6,6,6,6 6,6,6,6 6,6     0,0,0,0 0,0,0,0 0,0</code></pre>
 <p>はい、これで、RawDF$responseから、質問項目の名前の情報が消えました。やったね。 ついでに、データフレームにしてあげましょう。</p>
-<pre class="r"><code>DF &lt;- item_no_maziri_responses %&gt;% paste(., sep = &quot;&quot;, collapse = &quot;,&quot;) %&gt;%  read.csv(text =., header = F) %&gt;% as.numeric(.) %&gt;% array(., dim = c(14, 2)) %&gt;% t(.) %&gt;% data.frame(.)</code></pre>
-<p>質問項目とid情報も名前も入れときましょう。</p>
-<pre class="r"><code>names(DF) &lt;- paste(&quot;Q&quot;, c(1:14), sep = &quot;&quot;)
-DF$id &lt;- names(List)</code></pre>
+<pre class="r"><code>DF &lt;- item_no_maziri_responses %&gt;% paste(., sep = &quot;&quot;, collapse = &quot;,&quot;) %&gt;%  read.csv(text =., header = F) %&gt;% as.numeric(.) %&gt;% array(., dim = c(10, 2)) %&gt;% t(.) %&gt;% data.frame(.)</code></pre>
+<p>質問項目の変数名とid情報も入れときましょう。</p>
+<pre class="r"><code>names(DF) &lt;- paste(&quot;Q&quot;, c(1:10), sep = &quot;&quot;)
+DF$id &lt;- names(List) 
+DF &lt;- DF[,c(11,2:10)]</code></pre>
+<p>以上の操作で、綺麗なデータフレーム完成しました。やったね。</p>
+<pre class="r"><code>htmlTable::htmlTable(DF)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+id
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q2
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q3
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q4
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q5
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q6
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q7
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q8
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q9
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Q10
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+1
+</td>
+<td style="text-align: center;">
+takuto
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+<td style="text-align: center;">
+6
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+2
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+yoshida
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0
+</td>
+</tr>
+</tbody>
+</table>
 <p>jsPsychでのオンライン実験の作り方の記事ばかりで、データの処理の困っている人の役に立てば幸いです。 ラーメン食ってラボから帰ります。</p>
 </div>
 </div>
