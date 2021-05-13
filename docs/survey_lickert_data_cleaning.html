@@ -359,10 +359,13 @@ div.tocify {
 </div>
 
 
-<div id="jsonの中にjsonのマトリョーシカ" class="section level2">
-<h2>Jsonの中にJsonのマトリョーシカ</h2>
-<p>現在僕は、jsPsychとfirebaseでオンライン実験とオンライン調査をしています。 jsPsychは非常にわかりやすくて、実験作るのに役立つのですが、吐き出すデータフレームがちょっと癖あります。今回の記事の内容とは実験の作り方は離れるので、jsPsychでの実験の作り方が気になる方は、<a href="https://kunisatolab.github.io">Kunisato先生のブログ</a>を参照してください。</p>
+<div id="jspsychで研究中" class="section level2">
+<h2>jsPsychで研究中</h2>
+<p>現在僕は、jsPsychとfirebaseでオンライン実験とオンライン調査をしています。 jsPsychは非常にわかりやすくて、実験作るのに役立つのですが、吐き出すデータがちょっと癖あります。今回の記事の内容は、実験の作り方とは離れるので、jsPsychでの実験の作り方が気になる方は、<a href="https://kunisatolab.github.io">Kunisato先生のブログ</a>を参照してください。</p>
 <p>話を戻して、jsPsychでは、Jsonという形式で結果がアウトプットされます。他の吐き出し方もあるかもしれませんが、僕はJson以外の吐き出し方知りません。 基本的には、JsonはRへのデータ読み込みしやすい形式なんですが、一部問題があります。 jsPsych内の、survey-likertで、リッカートでの質問紙のデータの形式が大変でつまづきました。</p>
+</div>
+<div id="恐怖のマトリョーシカでた" class="section level2">
+<h2>恐怖のマトリョーシカで＝た</h2>
 <p><a href="jsPsych_Experiment/jsPsych_Likert.html">簡単な質問紙</a>で公開している質問紙に回答すると、以下のようなjsonデータが画面上に出力されます。ちなみに僕は満点です。イボではなくキレです。</p>
 <pre class="json"><code>    {
         &quot;rt&quot;: 5769.974999999249,
@@ -392,8 +395,8 @@ div.tocify {
         &quot;internal_node_id&quot;: &quot;0.0-0.0-2.0&quot;
     }
 </code></pre>
-<p>ちなみに、firebaseで公開して研究参加者さんに答えてもらうと、上のjsonファイルが、idごとに連なっていきます。気になる人は<a href="jsPsych_Experiment/survey_likert_rawdata.json">サンプルjsonファイル</a>で確認してください。</p>
-<p>さて、今回のデータでは、“responses”のところに、各項目の得点が入っています。が、これもまたjson形式になってるんですよね。</p>
+<p>firebaseで公開して研究参加者さんに答えてもらうと、上記のjsonファイルが、idごとに連なっていきます。気になる人は<a href="jsPsych_Experiment/survey_likert_rawdata.json">サンプルjsonファイル</a>で確認してください。</p>
+<p>まずは、上記のでjsonデータをRで分析しやすい形式に読み込みます。</p>
 <pre class="r"><code>library(tidyverse)
 library(jsonlite)
 library(dplyr)
@@ -401,7 +404,216 @@ library(dplyr)
 List &lt;- jsonlite::fromJSON(&quot;jsPsych_Experiment/survey_likert_rawdata.json&quot;,)
 
 RawDF &lt;- tidyr::as_tibble(List, validate = F) %&gt;% gather(., id) %&gt;% unnest(.)</code></pre>
-<p>以上のように、jsonliteを使ってエクセルでよく見るあの形のデータフレームを作って見るとわかるんですが、DF$responseが、以下のようにおかしなことになっちゃうんですよね。</p>
+<pre class="r"><code>htmlTable::htmlTable(RawDF)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+id
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+rt
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+responses
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+question_order
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+trial_type
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+trial_index
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+time_elapsed
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+internal_node_id
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+1
+</td>
+<td style="text-align: center;">
+takuto
+</td>
+<td style="text-align: center;">
+5769.97499999925
+</td>
+<td style="text-align: center;">
+{“game”:6,“ramen”:6,“stomach”:6,“JiuJitsu”:6}
+</td>
+<td style="text-align: center;">
+[0,1,2,3]
+</td>
+<td style="text-align: center;">
+survey-likert
+</td>
+<td style="text-align: center;">
+0
+</td>
+<td style="text-align: center;">
+5772
+</td>
+<td style="text-align: center;">
+0.0-0.0-0.0
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2
+</td>
+<td style="text-align: center;">
+takuto
+</td>
+<td style="text-align: center;">
+7308.96499999835
+</td>
+<td style="text-align: center;">
+{“ReadPaper”:6,“pray”:6,“MMA”:6,“WritePaper”:6}
+</td>
+<td style="text-align: center;">
+[0,1,2,3]
+</td>
+<td style="text-align: center;">
+survey-likert
+</td>
+<td style="text-align: center;">
+1
+</td>
+<td style="text-align: center;">
+13084
+</td>
+<td style="text-align: center;">
+0.0-0.0-1.0
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+3
+</td>
+<td style="text-align: center;">
+takuto
+</td>
+<td style="text-align: center;">
+4439.21000000046
+</td>
+<td style="text-align: center;">
+{“Wining11”:6,“zi”:6}
+</td>
+<td style="text-align: center;">
+[0,1]
+</td>
+<td style="text-align: center;">
+survey-likert
+</td>
+<td style="text-align: center;">
+2
+</td>
+<td style="text-align: center;">
+17525
+</td>
+<td style="text-align: center;">
+0.0-0.0-2.0
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+4
+</td>
+<td style="text-align: center;">
+yoshida
+</td>
+<td style="text-align: center;">
+5769.97499999925
+</td>
+<td style="text-align: center;">
+{“game”:0,“ramen”:0,“stomach”:0,“JiuJitsu”:0}
+</td>
+<td style="text-align: center;">
+[0,1,2,3]
+</td>
+<td style="text-align: center;">
+survey-likert
+</td>
+<td style="text-align: center;">
+0
+</td>
+<td style="text-align: center;">
+5772
+</td>
+<td style="text-align: center;">
+0.0-0.0-0.0
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+5
+</td>
+<td style="text-align: center;">
+yoshida
+</td>
+<td style="text-align: center;">
+7308.96499999835
+</td>
+<td style="text-align: center;">
+{“ReadPaper”:0,“pray”:0,“MMA”:0,“WritePaper”:0}
+</td>
+<td style="text-align: center;">
+[0,1,2,3]
+</td>
+<td style="text-align: center;">
+survey-likert
+</td>
+<td style="text-align: center;">
+1
+</td>
+<td style="text-align: center;">
+13084
+</td>
+<td style="text-align: center;">
+0.0-0.0-1.0
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+6
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+yoshida
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+4439.21000000046
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+{“Wining11”:0,“zi”:0}
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+[0,1]
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+survey-likert
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+2
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+17525
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+0.0-0.0-2.0
+</td>
+</tr>
+</tbody>
+</table>
+<p>エクセル形式になった！やったね！と思いきや、</p>
 <pre class="r"><code>RawDF$responses</code></pre>
 <pre><code>## [1] &quot;{\&quot;game\&quot;:6,\&quot;ramen\&quot;:6,\&quot;stomach\&quot;:6,\&quot;JiuJitsu\&quot;:6}&quot;  
 ## [2] &quot;{\&quot;ReadPaper\&quot;:6,\&quot;pray\&quot;:6,\&quot;MMA\&quot;:6,\&quot;WritePaper\&quot;:6}&quot;
@@ -409,6 +621,35 @@ RawDF &lt;- tidyr::as_tibble(List, validate = F) %&gt;% gather(., id) %&gt;% unn
 ## [4] &quot;{\&quot;game\&quot;:0,\&quot;ramen\&quot;:0,\&quot;stomach\&quot;:0,\&quot;JiuJitsu\&quot;:0}&quot;  
 ## [5] &quot;{\&quot;ReadPaper\&quot;:0,\&quot;pray\&quot;:0,\&quot;MMA\&quot;:0,\&quot;WritePaper\&quot;:0}&quot;
 ## [6] &quot;{\&quot;Wining11\&quot;:0,\&quot;zi\&quot;:0}&quot;</code></pre>
+<p>よく見ると、DFのデータフレーム内のresponse変数に、jsonっぽい何かが入っちゃうんですよね。 しかも、1人の参加者ごとに行でまとまってないし、質問紙調査に合うデータフレームになってない。</p>
+<p>というわけで形を整えたかったんですが、「jspsych survey likert R dataframe」とかで調べても解決策が出てこなかったんすよね。</p>
+<p>なので、なんとか解決できいたので皆さんに解決策を共有します。</p>
+</div>
+<div id="解決策" class="section level2">
+<h2>解決策</h2>
+<div id="無理矢理文字を消して配列にして処置" class="section level3">
+<h3>無理矢理文字を消して、配列にして処置。</h3>
+<p>responseの中の、「{」 や「}」という記号をまず消してあげます。</p>
+<pre class="r"><code>item_maziri_responses &lt;- RawDF$responses %&gt;%  noquote(.) %&gt;% gsub(&quot;{&quot;, &quot;&quot;, ., fixed = T) %&gt;% gsub(&quot;}&quot;, &quot;&quot;, .) %&gt;%
+  gsub(&quot;:&quot;, &quot;&quot;, .) </code></pre>
+<pre class="r"><code>item_maziri_responses</code></pre>
+<pre><code>## [1] &quot;game&quot;6,&quot;ramen&quot;6,&quot;stomach&quot;6,&quot;JiuJitsu&quot;6  
+## [2] &quot;ReadPaper&quot;6,&quot;pray&quot;6,&quot;MMA&quot;6,&quot;WritePaper&quot;6
+## [3] &quot;Wining11&quot;6,&quot;zi&quot;6                        
+## [4] &quot;game&quot;0,&quot;ramen&quot;0,&quot;stomach&quot;0,&quot;JiuJitsu&quot;0  
+## [5] &quot;ReadPaper&quot;0,&quot;pray&quot;0,&quot;MMA&quot;0,&quot;WritePaper&quot;0
+## [6] &quot;Wining11&quot;0,&quot;zi&quot;0</code></pre>
+<p>そんで、その配列の中の、"項目名"の部分を全部消してあげましょう。 質問項目の名前はそれぞれなので、<a href="http://www.okadajp.org/RWiki/?R+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE">正規表現</a>を使用してあげて、""で囲ってる範囲を抹殺してあげましょう。そのためには、 <strong>[\"’].*?[’\"]</strong> という風に指定して文字検索したら質問項目の名前は問わず、要らん文字列が抹殺されます。ここでつまずいて僕は5日くらい溶けました。</p>
+<pre class="r"><code>item_no_maziri_responses&lt;- item_maziri_responses %&gt;% gsub(&quot;[\&quot;&#39;].*?[&#39;\&quot;]&quot;, &quot;&quot;, .) </code></pre>
+<pre class="r"><code>item_no_maziri_responses</code></pre>
+<pre><code>## [1] 6,6,6,6 6,6,6,6 6,6     0,0,0,0 0,0,0,0 0,0</code></pre>
+<p>はい、これで、RawDF$responseから、質問項目の名前の情報が消えました。やったね。 ついでに、データフレームにしてあげましょう。</p>
+<pre class="r"><code>DF &lt;- item_no_maziri_responses %&gt;% paste(., sep = &quot;&quot;, collapse = &quot;,&quot;) %&gt;%  read.csv(text =., header = F) %&gt;% as.numeric(.) %&gt;% array(., dim = c(14, 2)) %&gt;% t(.) %&gt;% data.frame(.)</code></pre>
+<p>質問項目とid情報も名前も入れときましょう。</p>
+<pre class="r"><code>names(DF) &lt;- paste(&quot;Q&quot;, c(1:14), sep = &quot;&quot;)
+DF$id &lt;- names(List)</code></pre>
+<p>jsPsychでのオンライン実験の作り方の記事ばかりで、データの処理の困っている人の役に立てば幸いです。 ラーメン食ってラボから帰ります。</p>
+</div>
 </div>
 
 <footer>
