@@ -1,5 +1,5 @@
 ---
-title: "JsPsych_sample"
+title: "jsPsych_sample"
 author: "Takuto Yoshida"
 date: "5/10/2020"
 output:
