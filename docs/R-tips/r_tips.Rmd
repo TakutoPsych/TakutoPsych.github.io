@@ -1,7 +1,0 @@
----
-title: "R-Tips"
-
----
-
-
-[jsPsychのsurvey-likertのデータをRのデータフレームにする方法で四苦八苦したので備忘録](survey_lickert_data_cleaning.html)
