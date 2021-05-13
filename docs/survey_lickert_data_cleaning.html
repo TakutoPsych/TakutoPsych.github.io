@@ -362,38 +362,53 @@ div.tocify {
 <div id="jsonの中にjsonのマトリョーシカ" class="section level2">
 <h2>Jsonの中にJsonのマトリョーシカ</h2>
 <p>現在僕は、jsPsychとfirebaseでオンライン実験とオンライン調査をしています。 jsPsychは非常にわかりやすくて、実験作るのに役立つのですが、吐き出すデータフレームがちょっと癖あります。今回の記事の内容とは実験の作り方は離れるので、jsPsychでの実験の作り方が気になる方は、<a href="https://kunisatolab.github.io">Kunisato先生のブログ</a>を参照してください。</p>
-<p>話を戻して、jsPsychでは、Jsonという形式で結果がアウトプットされます。他の吐き出し方もあるかもしれませんが、僕はJson以外の吐き出し方知りません。 基本的には、JsonはRへのデータ読み込みしやすい形式なんですが、一部問題があります。 jsPsych内の、survey-likertで、リッカートでの質問紙のデータの形式が大変でつまづきました。 <a href="jsPsych_Experiment/jsPsych_Likert.html">簡単な質問紙</a>で公開している質問紙に回答すると、以下のようなjsonデータが手元に出来上がります。ちなみに僕は最小</p>
-<pre class="json"><code>
-[
-    {
-        &quot;rt&quot;: 5660.8349999987695,
-        &quot;responses&quot;: &quot;{\&quot;game\&quot;:0,\&quot;ramen\&quot;:0,\&quot;stomach\&quot;:0,\&quot;JiuJitsu\&quot;:0}&quot;,
+<p>話を戻して、jsPsychでは、Jsonという形式で結果がアウトプットされます。他の吐き出し方もあるかもしれませんが、僕はJson以外の吐き出し方知りません。 基本的には、JsonはRへのデータ読み込みしやすい形式なんですが、一部問題があります。 jsPsych内の、survey-likertで、リッカートでの質問紙のデータの形式が大変でつまづきました。</p>
+<p><a href="jsPsych_Experiment/jsPsych_Likert.html">簡単な質問紙</a>で公開している質問紙に回答すると、以下のようなjsonデータが画面上に出力されます。ちなみに僕は満点です。イボではなくキレです。</p>
+<pre class="json"><code>    {
+        &quot;rt&quot;: 5769.974999999249,
+        &quot;responses&quot;: &quot;{\&quot;game\&quot;:6,\&quot;ramen\&quot;:6,\&quot;stomach\&quot;:6,\&quot;JiuJitsu\&quot;:6}&quot;,
         &quot;question_order&quot;: &quot;[0,1,2,3]&quot;,
         &quot;trial_type&quot;: &quot;survey-likert&quot;,
         &quot;trial_index&quot;: 0,
-        &quot;time_elapsed&quot;: 5664,
+        &quot;time_elapsed&quot;: 5772,
         &quot;internal_node_id&quot;: &quot;0.0-0.0-0.0&quot;
     },
     {
-        &quot;rt&quot;: 5504.540000001725,
-        &quot;responses&quot;: &quot;{\&quot;ReadPaper\&quot;:0,\&quot;pray\&quot;:0,\&quot;MMA\&quot;:0,\&quot;WritePaper\&quot;:0}&quot;,
+        &quot;rt&quot;: 7308.964999998352,
+        &quot;responses&quot;: &quot;{\&quot;ReadPaper\&quot;:6,\&quot;pray\&quot;:6,\&quot;MMA\&quot;:6,\&quot;WritePaper\&quot;:6}&quot;,
         &quot;question_order&quot;: &quot;[0,1,2,3]&quot;,
         &quot;trial_type&quot;: &quot;survey-likert&quot;,
         &quot;trial_index&quot;: 1,
-        &quot;time_elapsed&quot;: 11169,
+        &quot;time_elapsed&quot;: 13084,
         &quot;internal_node_id&quot;: &quot;0.0-0.0-1.0&quot;
     },
     {
-        &quot;rt&quot;: 4310.880000000907,
-        &quot;responses&quot;: &quot;{\&quot;Wining11\&quot;:0,\&quot;zi\&quot;:0}&quot;,
+        &quot;rt&quot;: 4439.2100000004575,
+        &quot;responses&quot;: &quot;{\&quot;Wining11\&quot;:6,\&quot;zi\&quot;:6}&quot;,
         &quot;question_order&quot;: &quot;[0,1]&quot;,
         &quot;trial_type&quot;: &quot;survey-likert&quot;,
         &quot;trial_index&quot;: 2,
-        &quot;time_elapsed&quot;: 15481,
+        &quot;time_elapsed&quot;: 17525,
         &quot;internal_node_id&quot;: &quot;0.0-0.0-2.0&quot;
     }
-]
 </code></pre>
+<p>ちなみに、firebaseで公開して研究参加者さんに答えてもらうと、上のjsonファイルが、idごとに連なっていきます。気になる人は<a href="jsPsych_Experiment/survey_likert_rawdata.json">サンプルjsonファイル</a>で確認してください。</p>
+<p>さて、今回のデータでは、“responses”のところに、各項目の得点が入っています。が、これもまたjson形式になってるんですよね。</p>
+<pre class="r"><code>library(tidyverse)
+library(jsonlite)
+library(dplyr)
+
+List &lt;- jsonlite::fromJSON(&quot;jsPsych_Experiment/survey_likert_rawdata.json&quot;,)
+
+RawDF &lt;- tidyr::as_tibble(List, validate = F) %&gt;% gather(., id) %&gt;% unnest(.)</code></pre>
+<p>以上のように、jsonliteを使ってエクセルでよく見るあの形のデータフレームを作って見るとわかるんですが、DF$responseが、以下のようにおかしなことになっちゃうんですよね。</p>
+<pre class="r"><code>RawDF$responses</code></pre>
+<pre><code>## [1] &quot;{\&quot;game\&quot;:6,\&quot;ramen\&quot;:6,\&quot;stomach\&quot;:6,\&quot;JiuJitsu\&quot;:6}&quot;  
+## [2] &quot;{\&quot;ReadPaper\&quot;:6,\&quot;pray\&quot;:6,\&quot;MMA\&quot;:6,\&quot;WritePaper\&quot;:6}&quot;
+## [3] &quot;{\&quot;Wining11\&quot;:6,\&quot;zi\&quot;:6}&quot;                              
+## [4] &quot;{\&quot;game\&quot;:0,\&quot;ramen\&quot;:0,\&quot;stomach\&quot;:0,\&quot;JiuJitsu\&quot;:0}&quot;  
+## [5] &quot;{\&quot;ReadPaper\&quot;:0,\&quot;pray\&quot;:0,\&quot;MMA\&quot;:0,\&quot;WritePaper\&quot;:0}&quot;
+## [6] &quot;{\&quot;Wining11\&quot;:0,\&quot;zi\&quot;:0}&quot;</code></pre>
 </div>
 
 <footer>
