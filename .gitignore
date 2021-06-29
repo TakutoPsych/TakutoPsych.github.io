@@ -1,6 +1,8 @@
 # History files
 .Rhistory
 .Rapp.history
+TakutoPsych.github.io.Rproj
+
 
 # Session Data files
 .RData
@@ -38,4 +40,15 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-doc/
+doc/_config.yml
+
+
+
+## Contents/削除
+Contents/
+
+
+
+# DS Store
+.DS_Store
+docs/.DS_Store
