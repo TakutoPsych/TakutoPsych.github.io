@@ -13,7 +13,7 @@
 
 <title>自己紹介</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -371,7 +371,63 @@ div.tocify {
 </div>
 
 
-
+<p>吉田 拓人(よしだ たくと) 平成10年生まれ</p>
+<div id="教育歴" class="section level2">
+<h2>教育歴</h2>
+<ul>
+<li><p>2016 スポーツを頑張り脳震盪が繰り返される18年間</p></li>
+<li><p>2020 追手門学院大学心理学部心理学科卒業(学士)</p></li>
+<li><p>2022 追手門学院大学大学院心理学研究科社会環境犯罪心理学コース(修士修了予定)</p></li>
+</ul>
+</div>
+<div id="職歴" class="section level2">
+<h2>職歴</h2>
+<ul>
+<li><p>2016~現在 個別指導塾講師(アルバイト)</p></li>
+<li><p>2020~現在 追手門学院大学 心理学統計法 ティーチングアシスタント</p></li>
+<li><p>2021 追手門学院大学 リサーチアシスタント(英語質問紙の和訳補助)</p></li>
+<li><p>2022 某会社 マーケティングリサーチ部門(予定)</p></li>
+</ul>
+</div>
+<div id="趣味" class="section level2">
+<h2>趣味</h2>
+<ul>
+<li><p>悪意しかない長渕剛モノマネギター弾き語り</p></li>
+<li><p>そこに投げた人がいるようにしか考えられない一人での受け身</p></li>
+<li><p>総合格闘技・ブラジリアン柔術鑑賞</p></li>
+</ul>
+</div>
+<div id="特技" class="section level2">
+<h2>特技</h2>
+<ul>
+<li><p>上司に投げられて綺麗な接待受け身をとること。</p></li>
+<li><p>総合格闘技・ブラジリアン柔術の絞技・関節技</p></li>
+</ul>
+</div>
+<div id="資格日常場面でのスキル" class="section level2">
+<h2>資格・日常場面でのスキル</h2>
+<ul>
+<li><p>講道館柔道 初段</p></li>
+<li><p>心理学検定全領域合格(特一級の扱いですが、申請していないので特一級と表記していいのか不明)</p></li>
+<li><p>理不尽な場面に出会した際に、その理不尽を生み出す人間のことを脳内で三角絞めで締め落とすことで心の平穏を保つスキル</p></li>
+</ul>
+</div>
+<div id="研究分析スキル" class="section level2">
+<h2>研究・分析スキル</h2>
+<ul>
+<li><p>HAD</p></li>
+<li><p>SPSS</p></li>
+<li><p>R</p></li>
+<li><p>Stan</p></li>
+<li><p>javascript</p></li>
+<li><p>jsPsych</p></li>
+</ul>
+</div>
+<div id="研究テーマ" class="section level2">
+<h2>研究テーマ</h2>
+<p>詳細は、<a href="research.html">研究内容</a>をご確認ください。</p>
+<p>依存症を研究しています。 高校生の時にSid Vicious という教育上良くない人間を知ってしまい、依存症に興味を持ったためです。 今もなお首に南京錠ついていることもあります。 いい歳になったのでそろそろ鍵を外したいです。</p>
+</div>
 
 
 
@@ -411,6 +467,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
