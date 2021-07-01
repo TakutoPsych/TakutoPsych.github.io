@@ -662,7 +662,7 @@ survey-likert
 ## [4] &quot;game&quot;0,&quot;ramen&quot;0,&quot;stomach&quot;0,&quot;JiuJitsu&quot;0  
 ## [5] &quot;ReadPaper&quot;0,&quot;pray&quot;0,&quot;MMA&quot;0,&quot;WritePaper&quot;0
 ## [6] &quot;Wining11&quot;0,&quot;zi&quot;0</code></pre>
-<p>そんで、その配列の中の、"項目名"の部分を全部消してあげましょう。 質問項目の名前はそれぞれなので、<a href="http://www.okadajp.org/RWiki/?R+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE" target="_blank">正規表現</a>を使用してあげて、""で囲ってる範囲を抹殺してあげましょう。 <strong>[\"’].*?[’\"]</strong>という風に指定して文字検索したら質問項目の名前は問わず、""で囲われた要らん文字列が抹殺されます。ここでつまずいて僕は5日くらい溶けました。</p>
+<p>そんで、その配列の中の、“項目名”の部分を全部消してあげましょう。 質問項目の名前はそれぞれなので、<a href="http://www.okadajp.org/RWiki/?R+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE" target="_blank">正規表現</a>を使用してあげて、"“で囲ってる範囲を抹殺してあげましょう。 <strong>[\"’].*?[’\"]</strong>という風に指定して文字検索したら質問項目の名前は問わず、”"で囲われた要らん文字列が抹殺されます。ここでつまずいて僕は5日くらい溶けました。</p>
 <pre class="r"><code>item_no_maziri_responses&lt;- item_maziri_responses %&gt;% gsub(&quot;[\&quot;&#39;].*?[&#39;\&quot;]&quot;, &quot;&quot;, .) </code></pre>
 <pre class="r"><code>item_no_maziri_responses</code></pre>
 <pre><code>## [1] 6,6,6,6 6,6,6,6 6,6     0,0,0,0 0,0,0,0 0,0</code></pre>
