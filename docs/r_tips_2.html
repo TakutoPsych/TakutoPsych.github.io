@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Takuto Yoshida" />
+
+
+<title>Rstudioの日本語入力時空白問題の解決法</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!--html_preserve-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FRK54XW4ZX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FRK54XW4ZX');
+</script>
+
+
+<!--Google Adsense-->
+<script data-ad-client="ca-pub-3049732253771123" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<!--/html_preserve-->
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Takuto's Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="research.html">研究内容</a>
+</li>
+<li>
+  <a href="works.html">研究業績</a>
+</li>
+<li>
+  <a href="about_me.html">自己紹介</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="r_tips.html">R-Tips</a>
+</li>
+<li>
+  <a href="studies.html">勉強</a>
+</li>
+<li>
+  <a href="index_english.html">English</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Rstudioの日本語入力時空白問題の解決法</h1>
+<h4 class="author">Takuto Yoshida</h4>
+<h4 class="date">7/1/2021</h4>
+
+</div>
+
+
+<div id="rstudioで日本語入力は短期記憶勝負問題" class="section level1">
+<h1>Rstudioで日本語入力は短期記憶勝負問題</h1>
+<p>今まで、Rstudioを利用して、.Rスクリプトや、Rmarkdownファイルを作成していると、日本語入力の際に、以下のように変換確定させるまで空白になっちゃう致命的なバグがありました。いや、おそらく、これからもあるでしょう。</p>
+<p><img src="r_tips_2_pic/Hayo_Naose.png" title="はよ直せ" /></p>
+<p>さて、短期記憶の検査をしたら境界ギリギリのフルパワーADHDの私は、自分が.5秒前に打ち込んだ文字の記憶が流れるように消えていきます。そんな私には、変換確定までの記憶を保存する短期記憶など求められても無理ゲーです。</p>
+<p>一応対処法として、<a href="https://qiita.com/it_tan/items/91081a04d942b9b2cb99">[mac] Rstudioで日本語入力時に入力文字が表示されない</a> などの対処法がありますがこの方法では、僕がファイルを閉じて開くたびにRstudio君は短期記憶勝負を仕掛けてきます。Rstudio君、僕の自信を打ち砕くのやめてください。</p>
+<p>対処療法的な方法は調べたら出てくるのですが、今治療法のようなこのバグとおさらばする方法っていうのは調べても見当たりません。</p>
+<p>困り果ててRstudioのオプション触ってたらこのバグの解決策が見つかったので共有します。</p>
+</div>
+<div id="知らん間にrmdのエディタをビジュアルエディタにできるようになってた" class="section level1">
+<h1>知らん間にRmdのエディタをビジュアルエディタにできるようになってた</h1>
+<p>RstudioのRmdエディタのところをいじっていましたら、以下の画像のようにknitボタンの横の歯車内に、『Use Visual Editor』なるオプションを発見しました。</p>
+<p><img src="r_tips_2_pic/Use_Visual_Editor.png" title="ビジュアルエディタ？なにそれ美味しいの？" /></p>
+<p>試しに、Visual Edeitorを使ってみたところ、画面はこんな感じになりました。</p>
+<p><img src="r_tips_2_pic/OMG_2.png" title="神か！神ですか！！" /></p>
+<p>おおおお！！！！！お前マジか！！！！ワードプレスのビジュアルエディタやんかもはや。しかもチャンク入れ込めてローカルでRコード実行できて、その出力内容込みで、あるいは出力内容外してhtmlやpdfファイルに吐き出せるようになったって、すごすぎるやろ。え、おじさんそれだけですごいと思うよ。神アプデされてますやん。え、すごすぎませんこれ。</p>
+<p>そのビジュアルエディタ画面初めて見たとき、思わずそんなことを叫んでました。</p>
+<p>さて、この神エディタで日本語入力をしてたら、凄まじいことに気づいてしまいました。</p>
+<p>その結果、あれ？僕の短期記憶が格段に向上したのかと勘違いしちゃいました。気付かぬ間にスマートドラッグ服用でもしてたんかと不安になっちゃいました。スマートドラッグ使用疑惑のタイミングのビジュアルエディタの画面は以下です。</p>
+<p><img src="r_tips_2_pic/OMG_3.png" title="短期記憶が劇的改善疑惑の瞬間" /></p>
+<p>macの仕様を自動変換してくれるLive変換入れてるんで、漢字になってますけど、まあそれはどうでもいいとして。</p>
+<p>そう、日本語入力バグが生じなくなってるんですよね。変換確定する前の状態で空白が生まれなくなったんですよね。つまり、普通に日本語入力できて、短期記憶勝負をしなくて済むようになってたんですよね。</p>
+<p>正直この日本語空白バグは一生付き合うものだと思っていたので、感動しました。あと、日本語空白バグの改善に期待一切してなかったので、それが直るよりも僕の無意識スマートドラッグ摂取の方が可能性高いと思って、脳みそが混乱してしまいました。</p>
+</div>
+<div id="ビジュアルエディタ以外では日本語入力まだバグってるけどね" class="section level1">
+<h1>ビジュアルエディタ以外では日本語入力まだバグってるけどね</h1>
+<p>まあここまで書いてあれなんですが、ビジュアルエディタ以外ではまだ以前バグが残っています。ただの「.R」拡張子のRスクリプトファイルや、ビジュアルエディタを解除したRマークダウンファイルでも日本語は空白のままです。</p>
+<p>ただ、ビジュアルエディタ上のチャンクではなぜか日本語入力問題なくできます。こんな感じで。</p>
+<p><img src="r_tips_2_pic/OMG_4.png" title="チャンク内にも神がいるぞ！！" /></p>
+<p>僕自身は地のRスクリプトファイルにRコード書かないで、全部Rmdに書くようにしているので、今回の神アプデで大変満足しています。あと、ビジュアルエディタが使い勝手良すぎて、日本語論文書くのにも重宝しそうだなと思いました。もはやWord要らんっすね。</p>
+<p>以上、Rstudioで日本語入力したい方々の参考になれば幸いです。</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
